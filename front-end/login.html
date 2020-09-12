@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>login</title>
+    <script src="js/jquery.js"></script>
+</head>
+<body>
+    <div id="form_login">
+        <h1>Login Form</h1>
+        <form id="login" method="post">
+            <label for="username">Username : </label>
+            <input type="text" name="username" placeholder="silahkan masukkan username anda"><br><br>
+            <label for="username">Password : </label>
+            <input type="password" name="password" placeholder="silahkan masukkan password anda"><br><br>
+            <button type="submit">Login</button>
+            <button type="button" onclick="register()" style="margin-left: 40px;">Register</button>
+        </form>
+    </div>
+
+    <script>
+        function register() {
+            window.location.replace("register.html");
+        }
+
+        $(document).ready(function () {
+            $('#login').submit(function (e) {
+                e.preventDefault();
+                $form = $(this)
+                var formData = new FormData(this);
+                $.ajax({
+                    url: "/back-end/login.php",
+                    method: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        console.log(response);
+                        let data = JSON.parse(response);
+                        if (data.status == true) {
+                            alert(data.message)
+                            window.location.replace("/back-end/index.php");
+                        } else {
+                            alert(data.message)
+                        }
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                });
+            });
+        });
+    </script>
+</body>
+</html>

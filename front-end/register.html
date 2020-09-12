@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery.js"></script>
+</head>
+
+<body>
+    <div id="form_login">
+        <h1>Register Form</h1>
+        <form id="register">
+            <label for="username">Username : </label>
+            <input type="text" name="username" placeholder="silahkan masukkan username anda" required><br><br>
+            <label for="username">Password : </label>
+            <input type="password" name="password" placeholder="silahkan masukkan password anda" required><br><br>
+            <label for="username">Repeat Password : </label>
+            <input type="password" name="repeat_password" placeholder="silahkan masukkan ulang password anda"
+                required><br><br>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#register').submit(function (e) {
+                e.preventDefault();
+                $form = $(this)
+                var formData = new FormData(this);
+                $.ajax({
+                    url: "/back-end/register.php",
+                    method: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        let data = JSON.parse(response);
+                        if (data.status == true) {
+                            alert(data.message)
+                            // alert('<?php echo $_SESSION["user"] ?>')
+                            window.location.replace("login.html");
+                        } else {
+                            alert(data.message)
+                        }
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
